@@ -73,7 +73,7 @@ npm install &>>$LOGFILE
 VALIDATE $? "Installing dependencies"
 
 # give full path of user.service because we are inside /app
-cp /home/centos/roboshop-shellscript/user.service /etc/systemd/system/user.service &>>$LOGFILE
+cp /home/centos/shellscript-for-terra-robo-project/user.service /etc/systemd/system/user.service &>>$LOGFILE
 VALIDATE $? "copying user.service"
 
 systemctl daemon-reload &>>$LOGFILE

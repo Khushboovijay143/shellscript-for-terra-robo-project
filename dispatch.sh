@@ -68,7 +68,7 @@ VALIDATE $? "Unziping the dispatch artifact"
 go mod init dispatch &>>$LOGFILE && go get &>>$LOGFILE && go build &>>$LOGFILE
 VALIDATE $? "Building the dispatch artifact using go command"
 
-cp /home/centos/roboshop-shellscript/dispatch.service /etc/systemd/system/dispatch.service &>>$LOGFILE
+cp /home/centos/shellscript-for-terra-robo-project/dispatch.service /etc/systemd/system/dispatch.service &>>$LOGFILE
 VALIDATE $? "copying dispatch.service"
 
 systemctl daemon-reload &>>$LOGFILE

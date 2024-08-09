@@ -73,7 +73,7 @@ npm install &>>$LOGFILE
 VALIDATE $? "Installing dependencies"
 
 # give full path of cart.service because we are inside /app
-cp /home/centos/roboshop-shellscript/cart.service /etc/systemd/system/cart.service &>>$LOGFILE
+cp /home/centos/shellscript-for-terra-robo-project/cart.service /etc/systemd/system/cart.service &>>$LOGFILE
 VALIDATE $? "copying cart.service"
 
 systemctl daemon-reload &>>$LOGFILE

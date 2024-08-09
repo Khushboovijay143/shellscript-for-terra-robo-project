@@ -47,7 +47,7 @@ VALIDATE $? "moving in to default html"
 unzip /tmp/web.zip &>>$LOGFILE
 VALIDATE $? "Unziping the web artifacts"
 
-cp /home/centos/roboshop-shellscript/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$LOGFILE
+cp /home/centos/shellscript-for-terra-robo-project/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$LOGFILE
 VALIDATE $? "copying roboshop.config file"
 
 systemctl restart nginx &>>$LOGFILE
