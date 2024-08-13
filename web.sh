@@ -1,10 +1,11 @@
 #!/bin/bash
 
 DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -27,28 +28,37 @@ VALIDATE(){
 }
 
 yum install nginx -y &>>$LOGFILE
-VALIDATE $? "Installing nginx"
+
+VALIDATE $? "Installing Nginx"
 
 systemctl enable nginx &>>$LOGFILE
-VALIDATE $? "Enabling nginx"
+
+VALIDATE $? "Enabling Nginx"
 
 systemctl start nginx &>>$LOGFILE
-VALIDATE $? "Starting nginx"
+
+VALIDATE $? "Starting Nginx"
 
 rm -rf /usr/share/nginx/html/* &>>$LOGFILE
-VALIDATE $? "Removing default html content"
+
+VALIDATE $? "Removing default index html files"
 
 curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>>$LOGFILE
-VALIDATE $? "Downloading roboshop-web artifact"
+
+VALIDATE $? "Downloading web artifact"
 
 cd /usr/share/nginx/html &>>$LOGFILE
-VALIDATE $? "moving in to default html"
+
+VALIDATE $? "Moving to default HTML directory"
 
 unzip /tmp/web.zip &>>$LOGFILE
-VALIDATE $? "Unziping the web artifacts"
 
-cp /home/centos/shellscript-for-terra-robo-project/roboshop.conf /etc/nginx/default.d/roboshop.conf &>>$LOGFILE
-VALIDATE $? "copying roboshop.config file"
+VALIDATE $? "unzipping web artifact"
 
-systemctl restart nginx &>>$LOGFILE
-VALIDATE $? "Restarting nginx"
+cp /home/centos/shellscript-for-terra-robo-project/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>>$LOGFILE
+
+VALIDATE $? "copying roboshop config"
+
+systemctl restart nginx  &>>$LOGFILE
+
+VALIDATE $? "Restarting Nginx"
