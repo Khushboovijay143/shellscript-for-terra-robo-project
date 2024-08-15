@@ -30,7 +30,7 @@ VALIDATE(){
 yum module disable mysql -y &>> $LOGFILE
 VALIDATE $? "Disabling the default version"
 
-cp /home/centos/shellscript-for-terra-robo-project/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+cp mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 VALIDATE $? "Copying MySQL repo" 
 
 yum install mysql-community-server -y &>> $LOGFILE
