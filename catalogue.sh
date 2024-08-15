@@ -1,11 +1,11 @@
 #!/bin/bash
 
 DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-USERIDROBO=$(id -u roboshop)
-
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -27,21 +27,12 @@ VALIDATE(){
     fi
 }
 
-# cd /etc/yum.repos.d/ &>>$LOGFILE
-# VALIDATE $? "Moving into app directory"
-
-# sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding mirrorlist"
-
-# sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding baseurl and mirrorlist"
-
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
 VALIDATE $? "Setting up NPM Source"
 
 yum install nodejs -y &>>$LOGFILE
 VALIDATE $? "Installing NodeJS"
-    
+
 if [[ $USERIDROBO -ne 0 ]];
 then
     echo -e "$R Roboshop already exist $N"
@@ -58,7 +49,6 @@ else
     mkdir /app &>>$LOGFILE
     echo -e "$G Creating app Directory $N"
 fi
-
 
 curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 VALIDATE $? "downloading catalogue artifact"

@@ -1,11 +1,11 @@
 #!/bin/bash
 
 DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-USERIDROBO=$(id -u roboshop)
-
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -27,18 +27,9 @@ VALIDATE(){
     fi
 }
 
-# cd /etc/yum.repos.d/ &>>$LOGFILE
-# VALIDATE $? "Moving into app directory"
-
-# sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding mirrorlist"
-
-# sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding baseurl and mirrorlist"
-
 yum install maven -y &>>$LOGFILE
-VALIDATE $? "Installing maven"
-    
+VALIDATE $? "Installing Maven"
+
 if [[ $USERIDROBO -ne 0 ]];
 then
     echo -e "$R Roboshop already exist $N"
@@ -57,36 +48,37 @@ else
 fi
 
 curl -L -o /tmp/shipping.zip https://roboshop-builds.s3.amazonaws.com/shipping.zip &>>$LOGFILE
-VALIDATE $? "Downloading shipping Artifact"
+VALIDATE $? "Downloading shipping artifact"
 
 cd /app &>>$LOGFILE
-VALIDATE $? "moving in app DIR"
-
+VALIDATE $? "Moving to app directory"
+ 
 unzip /tmp/shipping.zip &>>$LOGFILE
-VALIDATE $? "upzipping shipping artifact"
+VALIDATE $? "Unzipping shipping"
 
 mvn clean package &>>$LOGFILE
-VALIDATE $? "Cleaning and packaging shipping jar"
+VALIDATE $? "packaging shipping app"
 
 mv target/shipping-1.0.jar shipping.jar &>>$LOGFILE
-VALIDATE $? "Renaming shipping jar"
+VALIDATE $? "renaming shipping jar"
 
 cp /home/centos/shellscript-for-terra-robo-project/shipping.service /etc/systemd/system/shipping.service &>>$LOGFILE
-VALIDATE $? "Copying shipping.service"
+VALIDATE $? "copying shipping service"
 
 systemctl daemon-reload &>>$LOGFILE
-VALIDATE $? "Reloading shipping"
+VALIDATE $? "daemon-reload"
 
-systemctl enable shipping &>>$LOGFILE
+systemctl enable shipping  &>>$LOGFILE
 VALIDATE $? "Enabling shipping"
 
 systemctl start shipping &>>$LOGFILE
 VALIDATE $? "Starting shipping"
 
-yum install mysql -y &>>$LOGFILE
-VALIDATE $? "Installing mysql"
 
-mysql -h mysql.vijaydeepak0812.online -uroot -pRoboShop@1 < /app/schema/shipping.sql &>>$LOGFILE
+yum install mysql -y  &>>$LOGFILE
+VALIDATE $? "Installing MySQL client"
+
+mysql -h mysql.vijaydeepak0812.online -uroot -pRoboShop@1 < /app/schema/shipping.sql  &>>$LOGFILE
 VALIDATE $? "Loaded countries and cities info"
 
 systemctl restart shipping &>>$LOGFILE

@@ -1,10 +1,11 @@
 #!/bin/bash
 
 DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -26,16 +27,8 @@ VALIDATE(){
     fi
 }
 
-# cd /etc/yum.repos.d/ &>>$LOGFILE
-# VALIDATE $? "Moving into app directory"
 
-# sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding mirrorlist"
-
-# sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding baseurl and mirrorlist"
-
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /home/centos/shellscript-for-terra-robo-project/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "Copied MongoDB repo into yum.repos.d"
 
 yum install mongodb-org -y &>> $LOGFILE

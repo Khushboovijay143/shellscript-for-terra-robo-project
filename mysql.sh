@@ -1,10 +1,11 @@
 #!/bin/bash
 
 DATE=$(date +%F)
+LOGSDIR=/tmp
+# /home/centos/shellscript-logs/script-name-date.log
 SCRIPT_NAME=$0
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=$LOGSDIR/$0-$DATE.log
 USERID=$(id -u)
-
 R="\e[31m"
 G="\e[32m"
 N="\e[0m"
@@ -26,20 +27,20 @@ VALIDATE(){
     fi
 }
 
-yum module disable mysql -y &>>$LOGFILE
-VALIDATE $? "Disabling mysql"
+yum module disable mysql -y &>> $LOGFILE
+VALIDATE $? "Disabling the default version"
 
-cp /home/centos/shellscript-for-terra-robo-project/mysql.repo /etc/yum.repos.d/mysql.repo
-VALIDATE $? "Copying mysql.repo in to etc"
+cp /home/centos/shellscript-for-terra-robo-project/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+VALIDATE $? "Copying MySQL repo" 
 
-yum install mysql-community-server -y &>>$LOGFILE
-VALIDATE $? "Installing mysql"
+yum install mysql-community-server -y &>> $LOGFILE
+VALIDATE $? "Installing MySQL Server"
 
-systemctl enable mysqld &>>$LOGFILE
-VALIDATE $? "Enabling mysql"
+systemctl enable mysqld &>> $LOGFILE
+VALIDATE $? "Enabling MySQL"
 
-systemctl start mysqld &>>$LOGFILE
-VALIDATE $? "Starting Mysql"
+systemctl start mysqld &>> $LOGFILE
+VALIDATE $? "Staring MySQL"
 
-mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOGFILE
-VALIDATE $? "Setting up root password"
+mysql_secure_installation --set-root-pass RoboShop@1 &>> $LOGFILE
+VALIDATE $? "setting up root password"

@@ -27,15 +27,6 @@ VALIDATE(){
     fi
 }
 
-# cd /etc/yum.repos.d/ &>>$LOGFILE
-# VALIDATE $? "Moving into app directory"
-
-# sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding mirrorlist"
-
-# sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* &>>$LOGFILE
-# VALIDATE $? "Adding baseurl and mirrorlist"
-
 yum install golang -y &>>$LOGFILE
 VALIDATE $? "Installing golang"
     
