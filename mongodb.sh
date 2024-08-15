@@ -28,7 +28,7 @@ VALIDATE(){
 }
 
 
-cp /home/centos/shellscript-for-terra-robo-project/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "Copied MongoDB repo into yum.repos.d"
 
 yum install mongodb-org -y &>> $LOGFILE
