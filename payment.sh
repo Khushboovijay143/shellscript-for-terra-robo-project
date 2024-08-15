@@ -59,7 +59,7 @@ VALIDATE $? "unzip artifact"
 pip3.6 install -r requirements.txt &>>$LOGFILE
 VALIDATE $? "Installing dependencies"
 
-cp /home/centos/shellscript-for-terra-robo-project/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
+cp payment.service /etc/systemd/system/payment.service &>>$LOGFILE
 VALIDATE $? "copying payment service"
 
 systemctl daemon-reload &>>$LOGFILE
