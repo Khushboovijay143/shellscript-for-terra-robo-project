@@ -4,9 +4,9 @@ Description=Payment Service
 [Service]
 User=root
 WorkingDirectory=/app
-Environment=CART_HOST=cart.vijaydeepak0812.online
+Environment=CART_HOST=cart.app.vijaydeepak0812.online
 Environment=CART_PORT=80
-Environment=USER_HOST=user.vijaydeepak0812.online
+Environment=USER_HOST=user.app.vijaydeepak0812.online
 Environment=USER_PORT=80
 Environment=AMQP_HOST=rabbitmq.vijaydeepak0812.online
 Environment=AMQP_USER=roboshop
